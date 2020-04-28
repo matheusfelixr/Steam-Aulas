@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import br.com.matheusfelixr.steam.model.entity.Category;
@@ -17,7 +18,12 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	
 	public List<Category> listAll(){
-		return categoryRepository.findAll();
+		Category category = new Category();
+		category.getDataControl().setDeleted(false);
+		
+		Example<Category> example = Example.of(category);
+		
+		return categoryRepository.findAll(example);
 	}
 	
 	public Category create(Category category){
@@ -50,9 +56,9 @@ public class CategoryService {
 		if(currentCategory==null) {
 			throw new ServiceException("Não e existe o item com id");
 		}		
-		
-		this.categoryRepository.delete(currentCategory);
-		
+				
+		currentCategory.getDataControl().markDeleted(new Date());
+		categoryRepository.save(currentCategory);
 		return true;
 	}
 

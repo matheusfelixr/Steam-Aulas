@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.matheusfelixr.steam.model.dto.CategoryDto;
 import br.com.matheusfelixr.steam.model.entity.Category;
 import br.com.matheusfelixr.steam.service.CategoryService;
 import io.swagger.annotations.ApiOperation;
@@ -27,12 +28,18 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/create")
-	public Category createCategory(@RequestBody Category category){
+	public Category createCategory(@RequestBody CategoryDto categoryDto){
+		
+		Category category = categoryDto.transformDtoToCategoryWithoutId();
+		
 		return categoryService.create(category);
 	}
 	
 	@PostMapping("/update")
-	public Category updateCategory(@RequestBody Category category){
+	public Category updateCategory(@RequestBody CategoryDto categoryDto){
+		
+		Category category = categoryDto.transformDtoToCategoryWithId();
+		
 		return categoryService.update(category);
 	}
 	

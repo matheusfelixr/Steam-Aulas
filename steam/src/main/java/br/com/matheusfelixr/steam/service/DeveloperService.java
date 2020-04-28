@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import br.com.matheusfelixr.steam.model.entity.Developer;
@@ -17,7 +18,12 @@ public class DeveloperService {
 	private DeveloperRepository developerRepository;
 	
 	public List<Developer> listAll(){
-		return developerRepository.findAll();
+		Developer developer = new Developer();
+		developer.getDataControl().setDeleted(false);
+		
+		Example<Developer> example = Example.of(developer);
+		
+		return developerRepository.findAll(example);
 	}
 	
 	public Developer create(Developer developer){
@@ -51,9 +57,8 @@ public class DeveloperService {
 		if(currentDeveloper == null) {
 			throw new ServiceException("Não e existe o item com id");
 		}		
-		
-		this.developerRepository.delete(currentDeveloper);
-		
+		currentDeveloper.getDataControl().markDeleted(new Date());
+		developerRepository.save(currentDeveloper);
 		return true;
 	}
 }

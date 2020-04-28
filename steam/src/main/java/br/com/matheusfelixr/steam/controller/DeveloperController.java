@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.matheusfelixr.steam.model.dto.DeveloperDto;
 import br.com.matheusfelixr.steam.model.entity.Developer;
 import br.com.matheusfelixr.steam.service.DeveloperService;
 
@@ -25,12 +26,17 @@ public class DeveloperController {
 	}
 	
 	@PostMapping("/create")
-	public Developer createDevelopers(@RequestBody Developer developer){
+	public Developer createDevelopers(@RequestBody DeveloperDto developerDto){
+		
+		Developer developer = developerDto.transformDtoToDeveloperWithoutId();
+		
 		return developerService.create(developer);
 	}
 	
 	@PostMapping("/update")
-	public Developer updateDevelopers(@RequestBody Developer developer){
+	public Developer updateDevelopers(@RequestBody DeveloperDto developerDto){
+		Developer developer = developerDto.transformDtoToDeveloperWithId();
+
 		return developerService.create(developer);
 	}
 	
