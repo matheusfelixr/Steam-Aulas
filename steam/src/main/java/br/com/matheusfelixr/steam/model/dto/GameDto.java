@@ -1,5 +1,6 @@
 package br.com.matheusfelixr.steam.model.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,14 @@ public class GameDto{
 	
 	private List<CategoryDto> categories;
 	
+	public List<CategoryDto> getCategories(){
+		if(this.categories == null) {
+			this.categories = new ArrayList<>();
+		}
+		return this.categories;
+	}
+	
+	
 	public Game transformDtoToGameWithId() {
 		
 		Game game = new Game();
@@ -31,8 +40,8 @@ public class GameDto{
 		game.setDeveloper(developer.transformDtoToDeveloperWithId());
 		
 		// Pega a lista de category no gameDTO  e transforma em um set na entidade GAME 
-		for(CategoryDto category : categories) {
-			game.getCategories().add(category.transformDtoToCategoryWithId());
+		for(CategoryDto categoryDto : this.getCategories()) {
+			game.getCategories().add(categoryDto.transformDtoToCategoryWithId());
 		}
 		
 		return game;
@@ -46,8 +55,8 @@ public class GameDto{
 		game.setReleseDate(this.getReleseDate());
 		game.setDeveloper(developer.transformDtoToDeveloperWithId());
 		
-		for(CategoryDto category : categories) {
-			game.getCategories().add(category.transformDtoToCategoryWithId());
+		for(CategoryDto categoryDto : this.getCategories()) {
+			game.getCategories().add(categoryDto.transformDtoToCategoryWithId());
 		}
 		
 		return game;

@@ -1,5 +1,6 @@
 package br.com.matheusfelixr.steam.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,9 +43,9 @@ public class GameService {
 		if(game.getId() != null) {
 			throw new ServiceException("Não e possivel salvar, pois o id está preenchido");
 		}
-		validDeveloper(game.getDeveloper());
+		validateDeveloper(game.getDeveloper());
 		
-		validCategories(game.getCategories());
+		validateCategories(game.getCategories());
 		
 		game.getDataControl().markCreated(new Date());
 		return gameRepository.save(game);
@@ -61,9 +62,9 @@ public class GameService {
 		if(currentGame==null) {
 			throw new ServiceException("Não e possivel editar, pois o objeto não existe");
 		}
-		validCategories(game.getCategories());
+		validateCategories(game.getCategories());
 		
-		validDeveloper(game.getDeveloper());
+		validateDeveloper(game.getDeveloper());
 		
 		game.setDataControl(currentGame.getDataControl());
 			
@@ -86,7 +87,7 @@ public class GameService {
 		return true;
 	}
 	
-	private Boolean validDeveloper(Developer developer) {
+	private Boolean validateDeveloper(Developer developer) {
 		
 		if(developer == null ||developer.getId() == null) {
 			throw new ServiceException("Não e possivel salvar, pois o developer esta vazio");
@@ -104,24 +105,34 @@ public class GameService {
 	}
 	
 	
-	private Boolean validCategories(Set<Category> categories) {
+	private Boolean validateCategories(Set<Category> categories) {
+		
+		List<Category> list = new ArrayList<Category>();
+		list.addAll(categories);
+		validateCategories(list);
+		return true;
+	}
+	
+	private Boolean validateCategories(List<Category> categories) {
+		
+		if(categories == null) {
+			throw new ServiceException("Objeto categories e obrigatorio");
+		}
 		
 		for(Category category: categories) {
 			
 			if(category == null ||category.getId() == null) {
 				throw new ServiceException("Não e possivel salvar, pois o category esta vazio");
 			}
-			
 			Optional<Category> categoryFindOptional = categoryRepository.findById(category.getId());
 			
 			Category categoryFind = categoryFindOptional.get();
 			
 			if(categoryFind == null) {
-				throw new ServiceException("Não foi possivel encontrar o category");
+				throw new ServiceException("Não foi possivel encontrar o category " + category.getId());
 			}else if(categoryFind.getDataControl().getDeleted()) {
-				throw new ServiceException("Não é possivel utilizar a category, pois a category selecionada esta deletada.");
+				throw new ServiceException("Não é possivel utilizar a category, pois a category selecionada esta deletada. " + category.getId());
 			}
-			
 		}
 		
 		return true;
