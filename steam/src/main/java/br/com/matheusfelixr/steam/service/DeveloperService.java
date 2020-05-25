@@ -2,6 +2,7 @@ package br.com.matheusfelixr.steam.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,9 @@ public class DeveloperService {
 			throw new ServiceException("Não e possivel editar, pois o id não está preenchido");
 		}
 		
-		Developer currentDeveloper = this.developerRepository.findById(developer.getId());
+		Optional<Developer> currentDeveloperOptional = this.developerRepository.findById(developer.getId());
+		
+		Developer currentDeveloper = currentDeveloperOptional.get();
 		
 		if(currentDeveloper==null) {
 			throw new ServiceException("Não e possivel editar, pois o objeto não existe");
@@ -52,7 +55,9 @@ public class DeveloperService {
 	}
 	
 	public Boolean delete(Long idDeveloper){
-		Developer currentDeveloper = this.developerRepository.findById(idDeveloper);
+		Optional<Developer> currentDeveloperOptional = this.developerRepository.findById(idDeveloper);
+		
+		Developer currentDeveloper = currentDeveloperOptional.get();
 		
 		if(currentDeveloper == null) {
 			throw new ServiceException("Não e existe o item com id");

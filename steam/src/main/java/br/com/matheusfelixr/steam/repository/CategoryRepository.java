@@ -8,5 +8,5 @@ import br.com.matheusfelixr.steam.model.entity.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	Category findById(Long id);
+	
 }

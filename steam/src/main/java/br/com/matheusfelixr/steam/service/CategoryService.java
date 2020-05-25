@@ -2,6 +2,7 @@ package br.com.matheusfelixr.steam.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +28,21 @@ public class CategoryService {
 	}
 	
 	public Category create(Category category){
+		category.setId(87L);
 		if(category.getId() != null) {
 			throw new ServiceException("Não e possivel salvar, pois o id está preenchido");
 		}
 		category.getDataControl().markCreated(new Date());
-		return categoryRepository.save(category);
+		return category;
 	}
 	
 	public Category update(Category category){
 		if(category.getId() == null) {
 			throw new ServiceException("Não e possivel editar, pois o id não está preenchido");
 		}
-		Category currentCategory = this.categoryRepository.findById(category.getId());
+		Optional<Category> currentCategoryOptional = this.categoryRepository.findById(category.getId());
 		
+		Category currentCategory = currentCategoryOptional.get();
 		if(currentCategory==null) {
 			throw new ServiceException("Não e possivel editar, pois o objeto não existe");
 		}
@@ -51,7 +54,9 @@ public class CategoryService {
 	}
 	
 	public Boolean delete(Long idCategory){
-		Category currentCategory = this.categoryRepository.findById(idCategory);
+		Optional<Category> currentCategoryOptional = this.categoryRepository.findById(idCategory);
+		
+		Category currentCategory = currentCategoryOptional.get();
 		
 		if(currentCategory==null) {
 			throw new ServiceException("Não e existe o item com id");

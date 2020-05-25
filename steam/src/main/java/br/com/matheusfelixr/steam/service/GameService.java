@@ -2,14 +2,18 @@ package br.com.matheusfelixr.steam.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import br.com.matheusfelixr.steam.model.entity.Category;
 import br.com.matheusfelixr.steam.model.entity.Developer;
 import br.com.matheusfelixr.steam.model.entity.Game;
+import br.com.matheusfelixr.steam.repository.CategoryRepository;
 import br.com.matheusfelixr.steam.repository.DeveloperRepository;
 import br.com.matheusfelixr.steam.repository.GameRepository;
 
@@ -21,6 +25,9 @@ public class GameService {
 	
 	@Autowired
 	private DeveloperRepository developerRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	public List<Game> listAll(){
 		Game game = new Game();
@@ -37,6 +44,7 @@ public class GameService {
 		}
 		validDeveloper(game.getDeveloper());
 		
+		validCategories(game.getCategories());
 		
 		game.getDataControl().markCreated(new Date());
 		return gameRepository.save(game);
@@ -46,11 +54,14 @@ public class GameService {
 		if(game.getId() == null) {
 			throw new ServiceException("Não e possivel editar, pois o id não está preenchido");
 		}
-		Game currentGame = this.gameRepository.findById(game.getId());
+		Optional<Game> currentGameOptional = this.gameRepository.findById(game.getId());
+		
+		Game currentGame = currentGameOptional.get();
 		
 		if(currentGame==null) {
 			throw new ServiceException("Não e possivel editar, pois o objeto não existe");
 		}
+		validCategories(game.getCategories());
 		
 		validDeveloper(game.getDeveloper());
 		
@@ -61,7 +72,10 @@ public class GameService {
 	}
 	
 	public Boolean delete(Long idGame){
-		Game currentGame = this.gameRepository.findById(idGame);
+		Optional<Game> currentGameOptional = this.gameRepository.findById(idGame);
+		
+		Game currentGame = currentGameOptional.get();
+		
 		
 		if(currentGame==null) {
 			throw new ServiceException("Não e existe o item com id");
@@ -77,12 +91,37 @@ public class GameService {
 		if(developer == null ||developer.getId() == null) {
 			throw new ServiceException("Não e possivel salvar, pois o developer esta vazio");
 		}
-		Developer developerFind = new Developer();
-		developerFind = developerRepository.findById(developer.getId());
+		Optional<Developer> developerFindOptional = developerRepository.findById(developer.getId());
+		
+		Developer developerFind = developerFindOptional.get();
 		if(developerFind == null) {
 			throw new ServiceException("Não foi possivel encontrar o desenvolvedor");
 		}else if(developerFind.getDataControl().getDeleted()) {
 			throw new ServiceException("Não é possivel utilizar a desenvolvedora, pois a desenvolvedora selecionada esta deletada.");
+		}
+		
+		return true;
+	}
+	
+	
+	private Boolean validCategories(Set<Category> categories) {
+		
+		for(Category category: categories) {
+			
+			if(category == null ||category.getId() == null) {
+				throw new ServiceException("Não e possivel salvar, pois o category esta vazio");
+			}
+			
+			Optional<Category> categoryFindOptional = categoryRepository.findById(category.getId());
+			
+			Category categoryFind = categoryFindOptional.get();
+			
+			if(categoryFind == null) {
+				throw new ServiceException("Não foi possivel encontrar o category");
+			}else if(categoryFind.getDataControl().getDeleted()) {
+				throw new ServiceException("Não é possivel utilizar a category, pois a category selecionada esta deletada.");
+			}
+			
 		}
 		
 		return true;

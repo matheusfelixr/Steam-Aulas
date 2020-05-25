@@ -8,5 +8,5 @@ import br.com.matheusfelixr.steam.model.entity.Developer;
 @Repository
 public interface DeveloperRepository extends JpaRepository<Developer, Long> {
 
-	Developer findById(Long id);
+	
 }

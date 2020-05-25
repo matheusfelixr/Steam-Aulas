@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.matheusfelixr.steam.model.dto.DeveloperDto;
@@ -41,7 +42,7 @@ public class DeveloperController {
 	}
 	
 	@PostMapping("/delete")
-	public Boolean deleteDevelopers(@RequestBody Long id){	
+	public Boolean deleteDevelopers(@RequestParam(name="developerId") Long id){	
 		return developerService.delete(id);
 	}
 

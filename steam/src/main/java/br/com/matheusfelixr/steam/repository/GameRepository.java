@@ -8,5 +8,5 @@ import br.com.matheusfelixr.steam.model.entity.Game;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-	Game findById(Long id);
+
 }

@@ -40,7 +40,7 @@ public class GameController {
 		
 		Game game = gameDto.transformDtoToGameWithId();
 		
-		return gameService.create(game);
+		return gameService.update(game);
 	}
 	
 	@PostMapping("/delete")

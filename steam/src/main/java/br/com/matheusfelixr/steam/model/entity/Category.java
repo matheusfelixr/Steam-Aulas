@@ -24,6 +24,15 @@ public class Category {
 	
 	@Embedded
 	private DataControl dataControl;
+	
+	public Category() {
+		super();
+	}
+	
+	public Category(String name) {
+		super();
+		this.name = name;
+	}
 
 	public DataControl getDataControl() {
 		if(dataControl== null) {
@@ -31,5 +40,6 @@ public class Category {
 		}
 		return dataControl;
 	}
+
 	
 }
