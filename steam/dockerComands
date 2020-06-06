@@ -1,0 +1,39 @@
+
+* windows para criar a imagem e subir para o docker hub
+
+-- build image 
+ 	$ docker build -t matheusfelixr/steam-api:hm .
+
+-- Roda imagem
+ 	$ docker run --name steam-api -p 8080:8080 -d steam-api
+ 
+-- verifica imagens no local
+
+	$ docker images
+	
+-- criar tag da imagem para enviar para nuvem
+
+	$ docker tag steam-api matheusfelixr/steam-api:hm
+	
+-- puch da imagem para nuvem
+
+	$ docker push matheusfelixr/steam-api:hm
+
+
+
+* servidor
+
+ -- logar no docker 
+ 
+ 	$ sudo docker login
+ 	
+ -- baixar imagem copiar do site do docker hub
+ 
+ 	$ sudo docker pull matheusfelixr/steam-api:hm
+ 	
+ --rodar imagem
+ 
+ 	$ sudo docker run --name steam-api --restart always -p 8080:8080 -d matheusfelixr/steam-api:hm
+ 	
+-- testar
+

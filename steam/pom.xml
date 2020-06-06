@@ -17,6 +17,30 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+	
+	<profiles>
+		<profile>
+		    <id>dev</id>
+		    <properties>
+		        <activatedProperties>dev</activatedProperties>
+		    </properties>
+		    <activation>
+		        <activeByDefault>true</activeByDefault>
+		    </activation>
+		</profile>
+		<profile>
+		    <id>prd</id>
+		    <properties>
+		        <activatedProperties>prd</activatedProperties>
+		    </properties>
+		</profile>
+		<profile>
+		    <id>hm</id>
+		    <properties>
+		        <activatedProperties>hm</activatedProperties>
+		    </properties>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -42,8 +66,8 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		
@@ -67,12 +91,15 @@
 	</dependencies>
 
 	<build>
+		<finalName>steam-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
