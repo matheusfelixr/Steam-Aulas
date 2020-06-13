@@ -1,0 +1,64 @@
+Deploy de aplicação em servidor linux centOs 8 com o docker
+
+1) atualizar servidro
+	-- obter privilegio de super usuario
+		$ sudo su
+	
+	-- atualizar sistema operacional
+		$ sudo yum update
+		
+2) Instalação do docker: 
+	referencia: https://docs.docker.com/engine/install/centos/
+	
+	--Adicionando novo repositorio necessario para instalação do docker
+	$ sudo yum install -y yum-utils
+
+	-- Adicionando repositorio do docker
+	$ sudo yum-config-manager \--add-repo \https://download.docker.com/linux/centos/docker-ce.repo
+	
+	--instalando docker
+	$ sudo yum install docker-ce docker-ce-cli containerd.io --nobest
+	
+	-- marcando docker para iniciar junto com sistema operacional
+	$ sudo chkconfig docker on
+	
+	--Inicia servidor do docker
+	$ sudo systemctl start docker
+	
+	--Realiza hellol-world para verificar se esta tudo ok
+	$ sudo docker run hello-world
+	
+	-- remove containers que nao estão rodando
+	$ sudo docker container prune
+	
+3) deploy da aplicação:
+	
+	-- No local criar novo perfil de build com nome teste
+	
+	-- No local criar application-teste.properties
+	
+	-- No local buildar o projeto com o maven
+	
+	--No local startar aplicação apontando para o properties teste e verificar se esta rodando
+	
+	-- No local criar imagem ja taguiando e testar no local. "atividades devem ser excutadas na pasta do projeto no local"
+	$ cd "local onde esta seu projeto"
+	$ docker build -t matheusfelixr/steam-api:teste .
+	
+	-- No local testar imagem " retirado -d para verficar log"
+	$ docker run --name steam-api -p 8080:8080 matheusfelixr/steam-api:teste
+		
+	-- No local subir imagem para docker hub
+	$ docker push matheusfelixr/steam-api:teste
+	
+	-- no servidor logar na sua conta do docker hub caso o repositorio seja privado
+	$ sudo docker login
+	
+	-- No servidor fazer um pull da imagem
+	$ sudo docker pull matheusfelixr/steam-api:teste
+	
+	-- subir a imagem
+	sudo docker run --name steam-api --restart always -p 8080:8080 -d matheusfelixr/steam-api:teste,
+	
+	-- testar
+	
