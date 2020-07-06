@@ -24,9 +24,7 @@ class Calculator extends React.Component {
     let value1 = this.state.valueOne
     let value2 = this.state.valueTwo
     this.setState({result: parseFloat(value1) + parseFloat(value2 )})
-
   }
-
   render() {
     return( 
         <form>
