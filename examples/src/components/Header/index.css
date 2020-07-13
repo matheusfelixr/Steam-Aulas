@@ -4,11 +4,10 @@ header#main-header{
     background:#fff;
     color: rgb(0, 0, 0);
     display: flex;
-    justify-content: right;
     align-items:  center;
 }
 
-img{
+.img{
     width: 75px;
     padding-left: 30px;
 }
@@ -24,4 +23,14 @@ a:link{
 
 a:hover{ 
     color: rgba(7, 7, 7, 0.459) !important;
+}
+
+
+.right{
+    position: absolute; 
+    right: 40px;
+}
+
+.pointer {
+    cursor: pointer;
 }
