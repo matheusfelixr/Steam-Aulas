@@ -3,7 +3,12 @@ import { Redirect } from "react-router-dom";
 
 import MyInputText from '../../components/MyInputText';
 import {authenticate} from '../../services/AuthenticationService'
-import './index.css';
+
+import {LoginContainer} from './css'
+import {LimitLoginContainer} from './css'
+import {ImgContainer} from './css'
+import {BtnContainer} from './css'
+import {Btn} from './css'
 
 class LoginPage extends React.Component {
 
@@ -65,21 +70,21 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div className="container-form">
+            <div >
                 {localStorage.getItem("token") && this.setState({logged:true})}
                 <form>
-                    <div className="login">
-                        <div className="container-login">
-                            <div className="container-img">
+                    <LoginContainer>
+                        <LimitLoginContainer>
+                            <ImgContainer>
                                 <img src={require('../../img/logoMasterRemoveBorder.png')}/>
-                            </div>
+                            </ImgContainer>
                             <MyInputText label="Usuário" name="userName" value={this.state.userName} onChange={this.onChange} validateInputText={this.state.validateInputTextUser} isValidateInput={this.state.isValidateInputUser} />
                             <MyInputText label="Senha" name="password" value={this.state.password} onChange={this.onChange} validateInputText={this.state.validateInputTextPassword} isValidateInput={this.state.isValidateInputPassword} />
-                            <div className="container-btn">
-                                <button className="btn " type="button" onClick={this.submit}>Entrar</button>
-                            </div>
-                        </div>
-                    </div>
+                            <BtnContainer>
+                                <Btn  type="button" onClick={this.submit}>Entrar</Btn>
+                            </BtnContainer>
+                        </LimitLoginContainer>
+                    </LoginContainer>
                 </form>
                 {this.state.logged&&<Redirect to={{ pathname : '/', state:{ from: this.props.location } }} />}
             </div>

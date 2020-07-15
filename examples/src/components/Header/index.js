@@ -1,7 +1,12 @@
 import React from 'react';
-import './index.css';
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import {HeaderNav} from './css'
+import {Img} from './css'
+import {DivRight} from './css'
+import {A} from './css'
+import {SpanLink} from './css'
+import {Name} from './css'
 
 
 class Header extends React.Component {
@@ -21,21 +26,21 @@ class Header extends React.Component {
 
   render() {
     return (
-      <header id="main-header">
-        <Link to="/"> <img className="img" src={require('../../img/logoMaster.png')} /> </Link>
+      <HeaderNav>
+        <Link to="/"> <Img src={require('../../img/logoMaster.png')} /> </Link>
 
-          <div className="left">
-            <Link className="link" to="/star-wars"> <span>Star Wars</span> </Link>
-            <Link className="link" to="/calculator"> <span>Calculadora</span> </Link>
+          <div>
+            <Link to="/star-wars"> <SpanLink>Star Wars</SpanLink> </Link>
+            <Link to="/calculator"> <SpanLink>Calculadora</SpanLink> </Link>
           </div>
 
-          <div className="right">
-            <span className="right">{localStorage.getItem("token")}</span>
-            <a className="pointer" onClick={this.submit}>Sair</a>
-          </div>
+          <DivRight>
+            <Name>{localStorage.getItem("token")}</Name>
+            <A onClick={this.submit}>Sair</A>
+          </DivRight>
 
         {!this.state.logged && <Redirect to={{ pathname: '/', state: { from: this.props.location } }} />}
-      </header>
+      </HeaderNav>
     );
   }
 }

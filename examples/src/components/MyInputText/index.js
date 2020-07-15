@@ -1,14 +1,16 @@
 import React from 'react'
-import'./index.css';
 import ValidateInputText from '../../components/ValidateInputText';
+import {ContainerLabel} from './css'
+import {Label} from './css'
+import {Input} from './css'
 
 function MyInputText(props) {
     return (
         <div>
-            <div className="container-label">
-                <label>{props.label}</label>
-            </div>
-            <input type="text" name={props.name} value={props.value} onChange={props.onChange}></input>
+            <ContainerLabel>
+                <Label>{props.label}</Label>
+            </ContainerLabel>
+            <Input type="text" name={props.name} value={props.value} onChange={props.onChange}></Input>
             <ValidateInputText text={props.validateInputText} isAppear={props.isValidateInput}/>
         </div>
     );

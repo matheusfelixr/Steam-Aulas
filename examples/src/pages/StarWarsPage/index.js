@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { Component } from 'react';
+import StarWarsPeople from '../../components/star-wars/StarWarsPeople';
 import Header from '../../components/Header';
 
-function StarWarsPage() {
-    return (
-        <div>
-             <Header/>
-            <h2>Bem vindo ao lado eu da força </h2>
-        </div>
-    );
+class StarWarsPage extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+
+        }
+        
+    }
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                <StarWarsPeople></StarWarsPeople>
+            </div>
+        );
+    }
 }
 
 export default StarWarsPage;
