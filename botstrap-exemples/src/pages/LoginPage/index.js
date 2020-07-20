@@ -1,14 +1,15 @@
 import React from 'react'
 import { Redirect } from "react-router-dom";
 
-import MyInputText from '../../components/MyInputText';
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
+import { LoginContainer } from './css'
+import { LimitLoginContainer } from './css'
 import {authenticate} from '../../services/AuthenticationService'
 
-import {LoginContainer} from './css'
-import {LimitLoginContainer} from './css'
-import {ImgContainer} from './css'
-import {BtnContainer} from './css'
-import {Btn} from './css'
+import ValidateInput from '../../components/ValidateInput'
 
 class LoginPage extends React.Component {
 
@@ -18,24 +19,19 @@ class LoginPage extends React.Component {
             userName: "",
             password: "",
             validateInputTextUser: "",
-            isValidateInputUser: false,
             validateInputTextPassword: "",
-            isValidateInputPassword: false,
             logged : false
         }
-
-        this.onChange = this.onChange.bind(this)
-        this.submit = this.submit.bind(this)        
-        
     }
 
-    onChange(e) {
+    onChange= (e) => {
         e.persist()
+        console.log(e.target.value);
         this.setState({ [e.target.name]: e.target.value })
-        this.setState({ isValidateInputUser: false, isValidateInputPassword: false })
+        this.setState({ validateInputTextUser: "", validateInputTextPassword: "" })
     }
 
-    submit() {
+    submit = () => {
         if((!this.state.userName || !this.state.userName === '' ) && (!this.state.password || !this.state.password === '' )){
             this.setState({ validateInputTextUser: "E necessário preencher o campo usuário!", isValidateInputUser: true })
             this.setState({ validateInputTextPassword: "E necessário preencher o campo senha!", isValidateInputPassword: true })
@@ -51,7 +47,6 @@ class LoginPage extends React.Component {
             this.setState({ validateInputTextPassword: "E necessário preencher o campo senha!", isValidateInputPassword: true })
             return;
         }
-
         let result = authenticate(
             {
               username : this.state.userName,
@@ -69,24 +64,29 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div >
+            <Container>
                 {localStorage.getItem("token") && this.setState({logged:true})}
-                <form>
-                    <LoginContainer>
-                        <LimitLoginContainer>
-                            <ImgContainer>
-                                <img src={require('../../img/logoMasterRemoveBorder.png')}/>
-                            </ImgContainer>
-                            <MyInputText label="Usuário" name="userName" value={this.state.userName} onChange={this.onChange} validateInputText={this.state.validateInputTextUser} isValidateInput={this.state.isValidateInputUser} />
-                            <MyInputText label="Senha" name="password" value={this.state.password} onChange={this.onChange} validateInputText={this.state.validateInputTextPassword} isValidateInput={this.state.isValidateInputPassword} />
-                            <BtnContainer>
-                                <Btn  type="button" onClick={this.submit}>Entrar</Btn>
-                            </BtnContainer>
-                        </LimitLoginContainer>
-                    </LoginContainer>
-                </form>
+                <LoginContainer>
+                    <LimitLoginContainer>
+                        <Form>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Usuário</Form.Label>
+                                <Form.Control type="text" placeholder="Usuário" name="userName" value={this.state.userName} onChange={this.onChange}/>
+                                <ValidateInput text={this.state.validateInputTextUser}/>
+
+                            </Form.Group>
+                       
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Senha</Form.Label>
+                                <Form.Control type="password" placeholder="Senha" name="password" value={this.state.password} onChange={this.onChange} />
+                                <ValidateInput text={this.state.validateInputTextPassword}/>
+                            </Form.Group>
+                            <Button variant="primary" onClick={this.submit}>Entrar</Button>
+                        </Form>
+                    </LimitLoginContainer>
+                </LoginContainer>
                 {this.state.logged&&<Redirect to={{ pathname : '/', state:{ from: this.props.location } }} />}
-            </div>
+            </Container>
         );
     }
 }
