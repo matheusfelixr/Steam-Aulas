@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { findById } from '../../../services/StarWarsService'
-import MyInputText from '../../MyInputText';
-import { Btn } from './css'
-import { Container } from './css'
+
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
+
+import {ContainerWhite} from './css'
 
 class StarWarsPeople extends React.Component {
 
@@ -38,16 +42,24 @@ class StarWarsPeople extends React.Component {
     imc = () => {
         var peso = this.state.person.mass;
         var altura = this.state.person.height;
-        altura= altura/100;
-        var imc = peso/(altura*altura);
+        altura = altura / 100;
+        var imc = peso / (altura * altura);
         return imc.toFixed(2);
     }
 
     render() {
         return (
             <Container>
-                <MyInputText label="Id da pessoa" name="personId" value={this.state.personId} onChange={this.onChange} validateInputText={this.state.validateInputTextPersonId} isValidateInput={this.state.isValidateInputPersonId} />
-                <Btn type="button" onClick={this.submit}>Buscar</Btn>
+                <ContainerWhite>
+                <Form>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Numero da Pessoa</Form.Label>
+                        <Form.Control type="Number" placeholder="Numero da pessoa" name="personId" value={this.state.personId} onChange={this.onChange}  />
+                        <Form.Text className="text-muted"> Erro</Form.Text>
+                    </Form.Group>
+
+                    <Button variant="primary"onClick={this.submit}>Buscar</Button>
+                </Form>
                 {this.state.person != "" && <div>
                     <div>
                         <span>Nome: {this.state.person.name}</span>
@@ -65,6 +77,7 @@ class StarWarsPeople extends React.Component {
                         <span>IMC: {this.imc()} </span>
                     </div>
                 </div>}
+                </ContainerWhite>
             </Container>
         );
     }

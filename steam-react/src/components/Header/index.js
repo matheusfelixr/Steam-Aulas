@@ -16,29 +16,23 @@ class Header extends React.Component {
         }
     }
 
-    submit = () => {
-        localStorage.clear();
-      }
-    
-
     render() {
         return (
             <div>
                 <Navbar bg="light" variant="light">
-                    <Navbar.Brand href="/"><ImgLogo src={require('../../img/logoMaster.png')} /></Navbar.Brand>
+                    {/* <Navbar.Brand href="/"><ImgLogo src={require('../../img/logoMaster.png')} /></Navbar.Brand> */}
                     <Nav className="mr-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/star-wars">Star Wars</Nav.Link>
-                    </Nav>
-                    <div className="mr-sm-2">
-                        <Dropdown>alignRight
+                    <Dropdown>alignRight
                             <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
-                                <Img src={require('../../img/user.png')} />
+                            Loja
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="/login" onClick={this.submit}>Sair</Dropdown.Item>
+                                <Dropdown.Item href="">Opa Opa</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
+                    </Nav>
+                    <div className="mr-sm-2">
+                      <span></span>
                     </div>
                 </Navbar>
             </div>

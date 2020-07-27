@@ -1,0 +1,14 @@
+body{
+    min-height: 100% !important;
+    height: auto !important;
+    position: relative !important;
+
+    background: url(https://store.steampowered.com/public/images/v6/colored_body_top2.png?v=2%27) center top no-repeat #1b2838 !important;
+    background: #1b2838 ;
+
+    position: relative !important;
+    min-height: 100% !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #c6d4df !important;
+    font-size: 12px !important;
+}

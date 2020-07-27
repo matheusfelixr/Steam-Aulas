@@ -9,7 +9,6 @@ class StarWarsPage extends React.Component {
         this.state = {
 
         }
-        
     }
 
     render() {
