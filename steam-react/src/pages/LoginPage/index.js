@@ -1,4 +1,6 @@
 import React from 'react'
+import Header from '../../components/Header';
+import Login from '../../components/Login';
 
 class LoginPage extends React.Component {
 
@@ -12,7 +14,10 @@ class LoginPage extends React.Component {
    
     render() {
         return (
-           <div>Login</div>
+           <div>
+               <Header/>
+               <Login/>
+           </div>
         );
     }
 }
