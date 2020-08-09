@@ -33,6 +33,12 @@ export const NavStyle = styled.div`
         color: #b8b6b4;
         text-decoration: none;
     }
+    .btn:hover{
+        color: white;
+    }
+    .dropdown-toggle::after{
+        border-top: 0;
+    }
 `
 export const GlobalActionMenu = styled.div`
     position: absolute; 

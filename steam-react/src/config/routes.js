@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
+import CategoryFormPage from '../pages/administrative/CategoryFormPage'
+import CategoryListPage from '../pages/administrative/CategoryListPage'
 
 import {isAuthenticated} from '../services/AuthenticationService'
 
@@ -35,6 +37,15 @@ export default function Routes() {
                 <LoginPage/>
             </Route>
 
+            <SecureRoute path="/category" exact={true}>
+                <CategoryListPage />
+            </SecureRoute> 
+            <SecureRoute path="/category/create" exact={true}>
+                <CategoryFormPage />
+            </SecureRoute> 
+            <SecureRoute path="/category/edit/:id" exact={true}>
+                <CategoryFormPage />
+            </SecureRoute> 
             <SecureRoute path="/" exact={true}>
                 <HomePage />
             </SecureRoute> 
