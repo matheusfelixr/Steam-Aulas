@@ -48,7 +48,7 @@ export default function Routes() {
             </SecureRoute> 
             <SecureRoute path="/" exact={true}>
                 <HomePage />
-            </SecureRoute> 
+            </SecureRoute>
         </Switch>
     </Router>
   );

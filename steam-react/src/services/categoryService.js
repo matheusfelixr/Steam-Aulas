@@ -22,3 +22,25 @@ export function create( category ){
         return response.json();
     })
 }
+
+export function update( category ){
+
+    const myHeaders = new Headers({
+        "Content-Type": "application/json"
+      });
+    
+    const config = { method: 'POST',
+                   body : JSON.stringify(category) ,
+                   headers : myHeaders
+                };
+
+    return fetch(`${CONFIG.apiUrl}category/update`, config).then(response => {
+        return response.json();
+    })
+}
+
+export function findById(id){
+    return fetch(`${CONFIG.apiUrl}category/find-by-id/${id}`).then(response => {
+        return response.json();
+    })
+}

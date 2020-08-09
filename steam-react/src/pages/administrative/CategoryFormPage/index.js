@@ -10,17 +10,33 @@ import { Content} from './css'
 
 import {create} from '../../../services/categoryService'
 
+import {update} from '../../../services/categoryService'
+
+import {findById} from '../../../services/categoryService'
+
+
 class CategoryFormPage extends React.Component {
 
     constructor(props, match) {
         super(props);
         this.state = {
-            name : ''
+            name:"",
+            id:"",
+            category : {
+                id:"",
+                name : ""
+            },
+            isEditing: false
         }
     }
 
     componentDidMount(){
-        console.log(this.props.match.params.id)
+        if(this.props.match.params.id){
+            this.setState({isEditing : true})
+            findById(this.props.match.params.id).then(response => {
+                this.setState({ category : response, id: response.id, name: response.name })
+            })
+        }
     }
 
     onChange = ( e )=>{
@@ -29,15 +45,19 @@ class CategoryFormPage extends React.Component {
     }
 
     submitForm = () =>{
-        console.log(this.state)
+        
+        this.state.category.name =  this.state.name
 
-        const category = {
-            name : this.state.name
+        if(!this.state.isEditing){
+            create(this.state.category).then(response => {
+                console.log(response)
+            })
+        }else{
+            update(this.state.category).then(response => {
+                console.log(response)
+            })
         }
 
-        create(category).then(response => {
-            console.log(category)
-        })
     }
 
     render() {
@@ -48,6 +68,10 @@ class CategoryFormPage extends React.Component {
                     <Row>
                         <Col>                        
                         <Form>
+                        <Form.Group controlId="fgId" >
+                                <Form.Label>Id</Form.Label>
+                                <Form.Control disabled name="id" onChange={this.onChange} value={this.state.id} />
+                            </Form.Group>
                             <Form.Group controlId="fgName" >
                                 <Form.Label>Nome</Form.Label>
                                 <Form.Control name="name"  placeholder="Digite o nome" onChange={this.onChange} value={this.state.name} />

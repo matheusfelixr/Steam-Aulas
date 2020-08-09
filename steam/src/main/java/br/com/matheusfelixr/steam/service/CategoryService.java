@@ -28,12 +28,11 @@ public class CategoryService {
 	}
 	
 	public Category create(Category category){
-		category.setId(87L);
 		if(category.getId() != null) {
 			throw new ServiceException("Não e possivel salvar, pois o id está preenchido");
 		}
 		category.getDataControl().markCreated(new Date());
-		return category;
+		return categoryRepository.save(category);
 	}
 	
 	public Category update(Category category){
@@ -65,6 +64,10 @@ public class CategoryService {
 		currentCategory.getDataControl().markDeleted(new Date());
 		categoryRepository.save(currentCategory);
 		return true;
+	}
+
+	public Category findById(Long id){
+		return categoryRepository.findById(id).get();
 	}
 
 }

@@ -3,18 +3,14 @@ package br.com.matheusfelixr.steam.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.matheusfelixr.steam.model.dto.CategoryDto;
 import br.com.matheusfelixr.steam.model.entity.Category;
 import br.com.matheusfelixr.steam.service.CategoryService;
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -47,5 +43,10 @@ public class CategoryController {
 	@PostMapping("/delete/{id}")
 	public Boolean deleteCategory(@PathVariable(name = "id") Long id){	
 		return categoryService.delete(id);
+	}
+
+	@GetMapping("/find-by-id/{id}")
+	public Category findById(@PathVariable(name = "id") Long id){
+		return categoryService.findById(id);
 	}
 }

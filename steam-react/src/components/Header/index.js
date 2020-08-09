@@ -99,7 +99,7 @@ class Header extends React.Component {
                                 ADMINISTRATIVO
                             </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="/category/create">CATEGORIA</Dropdown.Item>
+                                    <Dropdown.Item href="/category">CATEGORIA</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Nav>
