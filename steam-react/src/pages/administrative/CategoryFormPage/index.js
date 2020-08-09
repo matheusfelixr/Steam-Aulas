@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, Container, Row, Col, Form } from 'react-bootstrap'
+import {Button, Container, Row, Col, Form, Alert } from 'react-bootstrap'
 
 import Header from '../../../components/Header';
 
@@ -13,6 +13,8 @@ import {create} from '../../../services/categoryService'
 import {update} from '../../../services/categoryService'
 
 import {findById} from '../../../services/categoryService'
+
+import {CONFIG} from '../../../config/api';
 
 
 class CategoryFormPage extends React.Component {
@@ -33,9 +35,20 @@ class CategoryFormPage extends React.Component {
     componentDidMount(){
         if(this.props.match.params.id){
             this.setState({isEditing : true})
+
             findById(this.props.match.params.id).then(response => {
-                this.setState({ category : response, id: response.id, name: response.name })
-            })
+                console.log(response);
+                if(!response.status){
+                    this.setState({ category : response, id: response.id, name: response.name })
+                }else if(response.status == 500){
+                    alert(response.message)
+                }else{
+                    alert("Erro inesperado ao tentar buscar a categoria pelo id")
+                }
+                
+            }).catch(function(error) {
+                alert("Erro inesperado ao tentar buscar a categoria pelo id")
+              });
         }
     }
 
@@ -65,6 +78,17 @@ class CategoryFormPage extends React.Component {
             <Content>
                 <Header/>
                 <Container>   
+
+                <Alert variant="danger" onClose={false} >
+                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                    <p>
+                    Change this and that and try again. Duis mollis, est non commodo
+                    luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+                    Cras mattis consectetur purus sit amet fermentum.
+                    </p>
+                </Alert>
+
+
                     <Row>
                         <Col>                        
                         <Form>
