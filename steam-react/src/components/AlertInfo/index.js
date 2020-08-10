@@ -1,16 +1,16 @@
 import React from 'react'
-import {Alert}  from  'react-bootstrap'
+import { AlertComponent } from './css'
 
 function AlertInfo(props) {
     return (
         <div>  
          {props.show  &&
-            <Alert variant={props.variant} onClose={false}>
-                <Alert.Heading>{props.textHeading}</Alert.Heading>
+            <AlertComponent variant={props.variant} onClose={false}>
+                <AlertComponent.Heading>{props.textHeading}</AlertComponent.Heading>
                 <p>
                     {props.textBody}
                 </p>
-            </Alert> }
+            </AlertComponent> }
             </div>
         );
 }

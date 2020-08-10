@@ -48,7 +48,6 @@ public class CategoryController {
 
 	@GetMapping("/find-by-id/{id}")
 	public Category findById(@PathVariable(name = "id") Long id){
-		throw new ServiceException("opa opa");
-	//	return categoryService.findById(id);
+		return categoryService.findById(id);
 	}
 }

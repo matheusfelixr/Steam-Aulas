@@ -67,7 +67,11 @@ public class CategoryService {
 	}
 
 	public Category findById(Long id){
-		return categoryRepository.findById(id).get();
+		Optional<Category> category = categoryRepository.findById(id);
+		if(!category.isPresent()){
+			throw new ServiceException("Não possui categoria com o id informado");
+		}
+		return category.get();
 	}
 
 }
