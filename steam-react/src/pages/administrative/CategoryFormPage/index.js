@@ -1,72 +1,81 @@
 import React from 'react';
 
-import {Button, Container, Row, Col, Form, Alert } from 'react-bootstrap'
+import { Button, Container, Row, Col, Form } from 'react-bootstrap'
 
 import Header from '../../../components/Header';
 
 import { withRouter } from "react-router";
 
-import { Content} from './css'
+import { Content } from './css'
 
-import {create} from '../../../services/categoryService'
+import { update, findById, create } from '../../../services/categoryService'
 
-import {update} from '../../../services/categoryService'
-
-import {findById} from '../../../services/categoryService'
-
-import {CONFIG} from '../../../config/api';
-
+import AlertInfo from '../../../components/AlertInfo';
 
 class CategoryFormPage extends React.Component {
 
     constructor(props, match) {
         super(props);
         this.state = {
-            name:"",
-            id:"",
-            category : {
-                id:"",
-                name : ""
+            name: "",
+            id: "",
+            category: {
+                id: "",
+                name: ""
             },
-            isEditing: false
+            isEditing: false,
+            alertTextHeading:"",
+            alertTextBody:"",
+            alertVariant:"",
+            alertShow:false,
+            disabled:false,
+  
         }
     }
 
-    componentDidMount(){
-        if(this.props.match.params.id){
-            this.setState({isEditing : true})
+    componentDidMount() {
+        if (this.props.match.params.id) {
+            this.setState({ isEditing: true })
 
             findById(this.props.match.params.id).then(response => {
                 console.log(response);
-                if(!response.status){
-                    this.setState({ category : response, id: response.id, name: response.name })
-                }else if(response.status == 500){
-                    alert(response.message)
-                }else{
-                    alert("Erro inesperado ao tentar buscar a categoria pelo id")
-                }
-                
-            }).catch(function(error) {
-                alert("Erro inesperado ao tentar buscar a categoria pelo id")
-              });
+
+                if (!response.status) {
+                    this.setState({ category: response, id: response.id, name: response.name })
+
+                 } else if (response.status == 500) {
+                    this.setState({ alertTextHeading: "Atenção", alertTextBody: response.message, alertShow: true, alertVariant:"danger" })
+                 } else {
+                     this.setState({ alertTextHeading: "Atenção", alertTextBody: "Erro inesperado ao tentar buscar a categoria pelo id", alertShow: true, alertVariant:"danger" })
+                 }
+
+            }).catch((error) => {
+                alert(error)
+            });
         }
     }
 
-    onChange = ( e )=>{
+    onChange = (e) => {
         e.persist()
-        this.setState({ [e.target.name] : e.target.value })
+        this.setState({ [(e.target.name) ]: e.target.value })
     }
 
-    submitForm = () =>{
-        
-        this.state.category.name =  this.state.name
+    submitForm = () => {
 
-        if(!this.state.isEditing){
+        if(this.state.category.name === ""){
+            this.setState({ alertTextHeading: "Atenção", alertTextBody: "Não e possivel salvar um nome vazio", alertShow: true, alertVariant:"danger" })
+        }
+        this.state.category.name = this.state.name
+
+        if (!this.state.isEditing) {
             create(this.state.category).then(response => {
                 console.log(response)
+                this.setState({ alertTextHeading: "Sucesso", alertTextBody: "Salvo com sucesso", alertShow: true, alertVariant:"success", disabled:true })
             })
-        }else{
+        } else {
             update(this.state.category).then(response => {
+                this.setState({ alertTextHeading: "Sucesso", alertTextBody: "Editado com sucesso", alertShow: true, alertVariant:"success", disabled:true})
+
                 console.log(response)
             })
         }
@@ -76,36 +85,28 @@ class CategoryFormPage extends React.Component {
     render() {
         return (
             <Content>
-                <Header/>
-                <Container>   
-
-                <Alert variant="danger" onClose={false} >
-                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                    <p>
-                    Change this and that and try again. Duis mollis, est non commodo
-                    luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-                    Cras mattis consectetur purus sit amet fermentum.
-                    </p>
-                </Alert>
-
-
+                        <AlertInfo textHeading={this.state.alertTextHeading} textBody={this.state.alertTextBody} show={this.state.alertShow} variant={this.state.alertVariant}/>
+                <Header />
+                <Container>
                     <Row>
-                        <Col>                        
-                        <Form>
-                        <Form.Group controlId="fgId" >
-                                <Form.Label>Id</Form.Label>
-                                <Form.Control disabled name="id" onChange={this.onChange} value={this.state.id} />
-                            </Form.Group>
-                            <Form.Group controlId="fgName" >
-                                <Form.Label>Nome</Form.Label>
-                                <Form.Control name="name"  placeholder="Digite o nome" onChange={this.onChange} value={this.state.name} />
-                            </Form.Group>
+                        <Col>
+                            <Form>
+                                {this.state.isEditing &&
+                                    <Form.Group controlId="fgId" >
+                                        <Form.Label>Id</Form.Label>
+                                        <Form.Control disabled name="id" onChange={this.onChange} value={this.state.id} />
+                                    </Form.Group>}
 
-                            <Button variant="primary" type="button" onClick={this.submitForm}>
-                                Salvar
+                                <Form.Group controlId="fgName" >
+                                    <Form.Label>Nome</Form.Label>
+                                    <Form.Control disabled={this.state.disabled} name="name" placeholder="Digite o nome" onChange={this.onChange} value={this.state.name} />
+                                </Form.Group>
+
+                                <Button  disabled={this.state.disabled} variant="primary" type="button" onClick={this.submitForm}>
+                                    Salvar
                             </Button>
-                        </Form>
-                        </Col>     
+                            </Form>
+                        </Col>
                     </Row>
                 </Container>
             </Content>
